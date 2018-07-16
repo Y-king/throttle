@@ -1,0 +1,25 @@
+git branch  //查看所有分支
+
+
+git branch test  //创建分支
+
+
+git checkout master  //切换分支
+
+
+git merge test     //合并分支（首先切换到主分支） 
+
+
+git branch -d test //删除分支
+
+
+git push https://github.com/Y-king/throttle.git test:test   //创建远程分支
+
+
+git push https://github.com/Y-king/throttle.git :test   //删除远程分支
+
+
+git push https://github.com/Y-king/throttle.git --delete test  //删除远程分支
+ 
+
+ 
