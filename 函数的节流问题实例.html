@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>函数的节流问题实例</title>
+	<style>
+		*{margin: 0; padding: 0;}
+		#search{display: block; width: 300px; height: 30px; border:1px solid #333; outline: none; background: none; text-indent: 5px; margin: 100px auto;}
+	</style>
+</head>
+<body>
+	<input type="text" value="" id="search" name="search">
+	<script>
+		
+		function queryData(text){
+			console.log('正在搜索：' + text )
+		};
+
+		function throttle(fn,context,delay,text,timeInterval){
+			clearTimeout(fn.timer);
+			//记录当前时间
+			fn._cur=Date.now();  
+			// console.log(fn._cur)
+			//若该函数是第一次调用，则直接设置_start,即开始时间，为_cur，即此刻的时间
+			if(!fn._start){      
+				fn._start=fn._cur;
+			};
+			if(fn._cur-fn._start>timeInterval){ 
+				//当前时间与上一次函数被执行的时间作差，与timeInterval比较，若大于，则必须执行一次函数，若小于，则重新设置计时器
+				fn.call(context,text);
+				fn._start=fn._cur;
+			}else{
+				fn.timer=setTimeout(function(){
+					fn.call(context,text);
+				},delay);
+			}
+		};
+
+		var search = document.getElementById('search');
+		search.addEventListener('keyup',function(event){
+			var val = this.value;
+			//输入的值为空时，不搜索
+			if(val){
+				throttle(queryData,null,500,val,1000)
+			}
+		});
+	</script>
+</body>
+</html>
